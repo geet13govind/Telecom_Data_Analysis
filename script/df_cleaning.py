@@ -48,6 +48,28 @@ class CleaningDf():
     self.df.dropna(subset=columns, inplace=True)
 
 
+  def convert_datetime(self, columns):
+    '''
+    Convert columns to date time.
+    '''
+
+    for column in columns:
+      self.df[column] = pd.to_datetime(self.df[column])
+    
+    return self.df
+
+
+  def convert_to(self, columns, data_type):
+    '''
+    Convert Columns to desired data types.
+    '''
+
+    for column in columns:
+      self.df[column] = self.df[column].astype(data_type)
+    
+    return self.df
+
+
   def fill_catagorical_column(self, column):
     '''
     Return DataFrame
@@ -66,6 +88,24 @@ class CleaningDf():
       self.fill_catagorical_column(column)
   
 
+  def fill_numerical_column(self, column):
+    '''
+    Reuturn DataFrame with Numerical null values filled with 
+    mean or median depending on the skewness of the column
+    '''
+
+    skewness = self.df[column].skew()
+    if((-1 < skewness) and (skewness < -0.5)):
+      # Negative skew
+      self.df[column].fillna(self.df[column].mean())
+
+    elif((0.5 < skewness) and (skewness < 1)):
+      # Positive skew
+      self.df[column].fillna(self.df[column].median())
+
+    else:
+      # highly skewed 
+      self.df[column].fillna(self.df[column].median())
   def fix_outliers(self, col):
     '''
     Handle outliers of specified column
@@ -78,3 +118,9 @@ class CleaningDf():
 
     self.df[col] = np.where(self.df[col] < lower_bound, lower_bound, self.df[col])
     self.df[col] = np.where(self.df[col] > upper_bound, upper_bound, self.df[col])
+
+  def save_clean(self):
+    try:
+      self.df.to_csv('cleaned_data.csv', index=False)
+    except:
+      print('Log: Error while Saving File')
