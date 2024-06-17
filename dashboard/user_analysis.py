@@ -11,7 +11,8 @@ import matplotlib.pyplot as plt
 
 import script.ploting as plot
 #This is User Averview Analysis
-st.subheader('overciew page')
+st.title('Telecom Data Analysis') 
+st.subheader('overview page')
 st.set_option('deprecation.showPyplotGlobalUse', False)
 class OverviewAnalysis:
   def __init__(self, df):

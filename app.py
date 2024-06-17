@@ -1,10 +1,9 @@
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join('..')))
-#import numpy as np
 import pandas as pd
 import streamlit as st
-from streamlit_option_menu import option_menu 
+from streamlit_option_menu import option_menu
 st.set_page_config(page_title='Telecom Data Analysis', page_icon=None, layout="centered", 
 initial_sidebar_state="auto", menu_items=None)
 # the pages
